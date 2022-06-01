@@ -3,7 +3,7 @@ unit Backend;
 
 interface
 
-uses structures, crt;
+uses structures, crt, ihm;
 
 CONST UP = #72;
 	DOWN = #80;
@@ -11,7 +11,7 @@ CONST UP = #72;
 	RIGHT = #77;
 	
 
-
+procedure initialisation(var partie: Jeu);
 procedure creer_partie(var l_paires: PPPPaire; config: Configuration);
     
 procedure tour(var partie : Jeu);
@@ -64,9 +64,16 @@ implementation
         end;
     end;
 
+    procedure initialisation(var partie: Jeu);
+    begin
+        demander_parametres(partie.config);
+        creer_partie(partie.liste_paires, partie.config);
+    end;
+
     procedure tour(var partie: Jeu);
     begin
         action(partie);
+        afficher_plateau(partie);
     end;
 
     procedure action(var partie: Jeu);
@@ -74,6 +81,7 @@ implementation
         touche_pressee : Char;
         new_pos : Position;
     begin
+        (* TODO: quitter la boucle quand une action est appliquée et non quand l'utilisateur quitte la partie car ça retire l'intérêt de la procedure tour et bloque le compteur de tour*)
         repeat
             begin
                 touche_pressee := readkey;

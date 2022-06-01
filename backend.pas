@@ -2,11 +2,22 @@ unit Backend;
 
 
 interface
+
 uses structures, crt;
+
+CONST UP = #72;
+	DOWN = #80;
+	LEFT = #75;
+	RIGHT = #77;
+	
 
 
 procedure creer_partie(var l_paires: PPPPaire; config: Configuration);
     
+procedure tour(var partie : Jeu);
+procedure action(var partie : Jeu);
+procedure retourner(var partie : Jeu);
+
 implementation
     procedure creer_partie(var l_paires: PPPPaire; config: Configuration);
     var
@@ -31,7 +42,6 @@ implementation
           
                 end;
                 l_paires[i][j] := tmp_paire;
-                writeln(i, ' ', j, ' :', l_paires[i][j]^.lettre);
             end;
         end;
 
@@ -53,4 +63,39 @@ implementation
             end;
         end;
     end;
+
+    procedure tour(var partie: Jeu);
+    begin
+        action(partie);
+    end;
+
+    procedure action(var partie: Jeu);
+    var
+        touche_pressee : Char;
+        new_pos : Position;
+    begin
+        repeat
+            begin
+                touche_pressee := readkey;
+                case touche_pressee of
+                    UP : new_pos.y := partie.curseur_position.y - 1;
+                    DOWN: new_pos.y := partie.curseur_position.y + 1;
+                    LEFT : new_pos.x := partie.curseur_position.x - 1;
+                    RIGHT : new_pos.x := partie.curseur_position.x + 1;
+                end;
+                if (new_pos.y >= 0) or (new_pos.y < partie.config.taille_grille) then
+                    partie.curseur_position.y := new_pos.y
+                else if (new_pos.x >= 0) or (new_pos.x < partie.config.taille_grille) then
+                    partie.curseur_position.x := new_pos.x;
+            end;
+        until (touche_pressee = 'q') or (touche_pressee = 'e');
+        if touche_pressee = 'e' then
+            retourner(partie);
+    end;
+
+    procedure retourner(var partie : Jeu);
+    begin
+       // partie.liste_paires[partie.curseur_position.x][partie.curseur_position.y].decouverte:=True;
+    end;
 end.
+

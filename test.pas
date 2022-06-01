@@ -6,7 +6,6 @@ procedure afficher_plateau (partie : Jeu);
 var l,c : integer;
 begin
 	clrScr();
-    writeln(partie.liste_paires[0][0]^.lettre);
 	for l := 0 to partie.config.taille_grille - 1 do
 	begin
 		for c := 0 to partie.config.taille_grille - 1 do 

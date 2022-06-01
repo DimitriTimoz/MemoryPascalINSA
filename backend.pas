@@ -81,7 +81,6 @@ implementation
         touche_pressee : Char;
         new_pos : Position;
     begin
-        (* TODO: quitter la boucle quand une action est appliquée et non quand l'utilisateur quitte la partie car ça retire l'intérêt de la procedure tour et bloque le compteur de tour*)
         repeat
             begin
                 touche_pressee := readkey;

@@ -18,7 +18,31 @@ procedure tour(var partie : Jeu);
 procedure action(var partie : Jeu);
 procedure retourner(var partie : Jeu);
 
+function fin_partie(partie: Jeu): boolean;
+
 implementation
+
+    function fin_partie(partie: Jeu): boolean;
+    var
+        i, j: integer;
+    begin
+        fin_partie := True;
+        for i := 0 to partie.config.taille_grille - 1 do
+        begin
+            for j := 0 to partie.config.taille_grille - 1 do
+            begin
+                if not(partie.liste_paires[i][j]^.decouverte) then 
+                    fin_partie := False;
+            end;
+        end;
+        if fin_partie then
+            for i := 0 to partie.config.taille_grille - 1 do
+                for j := 0 to partie.config.taille_grille - 1 do
+                    freeMem(partie.liste_paires[i][j]);
+
+        fin_partie := fin_partie or partie.fin;
+    end;
+
     procedure creer_partie(var l_paires: PPPPaire; config: Configuration);
     var
         n, i, j: integer;
@@ -32,12 +56,12 @@ implementation
             l_paires[i] := GetMem(sizeof(PPaire) * config.taille_grille);
             for j := 0 to config.taille_grille - 1 do
             begin
-                n := (i)*config.taille_grille + j + 1;
+                n := i * config.taille_grille + j + 1;
                 if n mod 2 = 1 then
                 begin
                     // demande à stocker une paire
                     tmp_paire := GetMem(sizeof(Paire));
-                    tmp_paire^.decouverte := true;
+                    tmp_paire^.decouverte := false;
                     tmp_paire^.lettre := chr(ord('a') + n div 2 );
           
                 end;

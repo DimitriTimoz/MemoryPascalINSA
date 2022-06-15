@@ -24,6 +24,7 @@ interface
             curseur_position: Position;
             pos_retournee: Position;
             n_tour: integer;
+            fin: boolean;
         end;
 
 implementation

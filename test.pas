@@ -9,7 +9,6 @@ begin
     initialisation(partie);
     repeat
         tour(partie);
-    until True;    
+    until fin_partie(partie);    
     message_fin(partie);
-
 end.
